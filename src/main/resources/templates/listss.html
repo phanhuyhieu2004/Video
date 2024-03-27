@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+
+    <link rel="stylesheet" href="/css/hi.css">
+</head>
+
+<body>
+<div class="container">
+    <nav>
+        <div class="navbar">
+            <div class="logo">
+                <!--                <img src="/pic/logo.jpg" alt="">-->
+                <!--                <h1>jobs</h1>-->
+            </div>
+            <ul>
+                <li><a href="#">
+                    <i class="fas fa-user"></i>
+                    <span class="nav-item">Dashboard</span>
+                </a>
+                </li>
+                <li><a href="/categorys">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="nav-item">Category</span>
+                </a>
+                </li>
+                <li><a href="/videos">
+                    <i class="fas fa-tasks"></i>
+                    <span class="nav-item">Videos</span>
+                </a>
+                </li>
+                <li><a href="/accounts">
+                    <i class="fab fa-dochub"></i>
+                    <span class="nav-item">Accounts</span>
+                </a>
+                </li>
+                <li><a href="#">
+                    <i class="fas fa-cog"></i>
+                    <span class="nav-item">Setting</span>
+                </a>
+                </li>
+                <li><a href="#">
+                    <i class="fas fa-question-circle"></i>
+                    <span class="nav-item">Help</span>
+                </a>
+                </li>
+                <li><a href="#" class="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="nav-item">Logout</span>
+                </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="main">
+
+        <div class="main-body">
+
+
+            <div class="search_bar">
+                <form>
+                    <input type="text" placeholder="Search " name="s" >
+                    <input type="submit" value="Search">
+                </form>
+
+                <select class="filter">
+                    <option>Filter</option>
+                </select>
+
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Account name</th>
+                        <th>Role</th>
+
+                    </tr>
+                    </thead>
+                    <th:block th:each="account,accountStart : ${accounts}">
+                        <tr>
+                            <td th:text="${accountStart.index+1}"></td>
+                            <td th:text="${account.userName}"></td>
+                            <td th:text="${account.role}"></td>
+
+                        </tr>
+                    </th:block>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+
+</body>
+
+</html>

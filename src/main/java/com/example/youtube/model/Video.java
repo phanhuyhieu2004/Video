@@ -16,24 +16,29 @@ public class Video {
     private Long video_id;
     private String title;
     private String description;
+    private String thumbnail;
+
     private String url;
     private String upload_date;
-    private int views;
+
+
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
+@ManyToOne
+@JoinColumn(name="account_id")
+private Account account;
     public Video() {
     }
 
-    public Video(Long video_id, String title, String description, String url, String upload_date, int views, Category category) {
+    public Video(Long video_id, String title, String description, String thumbnail, String url, String upload_date, Category category) {
         this.video_id = video_id;
         this.title = title;
         this.description = description;
+        this.thumbnail = thumbnail;
         this.url = url;
         this.upload_date = upload_date;
-        this.views = views;
         this.category = category;
     }
 
@@ -61,6 +66,14 @@ public class Video {
         this.description = description;
     }
 
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -75,14 +88,6 @@ public class Video {
 
     public void setUpload_date(String upload_date) {
         this.upload_date = upload_date;
-    }
-
-    public int getViews() {
-        return views;
-    }
-
-    public void setViews(int views) {
-        this.views = views;
     }
 
     public Category getCategory() {

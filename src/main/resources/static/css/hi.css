@@ -1,0 +1,341 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    color:black;
+}
+
+
+body {
+    background: pink;
+    margin: 0; /* Loại bỏ margin mặc định của body */
+}
+.container {
+    display: flex;
+    width: 100%; /* Đặt chiều rộng là toàn bộ chiều rộng của viewport */
+    min-height: 100vh; /* Đảm bảo container bao phủ toàn bộ chiều cao của viewport */
+}
+
+nav {
+    width: 280px; /* Đặt chiều rộng của menu bên trái */
+    background: #fff;
+}
+
+.navbar {
+    width: 100%;
+    padding: 20px; /* Thêm padding cho navbar */
+}
+
+
+.logo {
+    margin: 2rem 0 1rem 0;
+    padding-bottom: 3rem;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.logo h1 {
+    margin-left: 1rem;
+    text-transform: uppercase;
+}
+
+ul {
+    margin: 0 auto;
+}
+
+li {
+    padding-bottom: 2rem;
+}
+
+li a {
+    font-size: 16px;
+    color: rgb(85, 83, 83);
+}
+
+.nav-item {
+
+}
+
+nav i {
+    width: 50px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.logout {
+    position: absolute;
+    bottom: 20px;
+}
+
+.main {
+    flex: 1; /* Chiếm phần còn lại của không gian */
+    padding: 20px; /* Thêm padding cho nội dung chính */
+}
+
+.main-top {
+    width: 100%;
+    background: #fff;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgb(43, 43, 43);
+}
+
+.main-body {
+    padding: 10px 10px 10px 20px;
+}
+
+h1 {
+    margin: 20px 10px;
+}
+
+.search_bar {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+.search_bar input {
+    margin-right: 10px;
+    width: 40%;
+    padding: 10px;
+    border: 1px solid rgb(190, 190, 190);
+}
+
+.search_bar input:focus {
+    border: 1px solid blueviolet;
+}
+
+.search_bar select {
+    border: 1px solid rgb(190, 190, 190);
+    padding: 10px;
+    margin-left: 2rem;
+}
+
+.search_bar .filter {
+    width: 150px;
+}
+
+.search_bar .filters {
+    width: 150px;
+}
+
+.table-container {
+    overflow-x: auto;
+    box-sizing: border-box;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.data-table th,
+.data-table td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+@media (max-width: 600px) {
+    .data-table {
+        font-size: 12px;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 6px 8px;
+    }
+}
+
+.login-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.edit {
+    background-color: dodgerblue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.delete {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+@media (max-width: 600px) {
+    .modal-content {
+        margin: 15% auto;
+        width: 90%;
+    }
+}
+
+.table-container {
+    overflow-x: auto;
+    box-sizing: border-box;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.data-table th,
+.data-table td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+@media (max-width: 600px) {
+    .data-table {
+        font-size: 12px;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 6px 8px;
+    }
+}
+
+
+.login-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        margin: 15% auto;
+        width: 90%;
+    }
+}

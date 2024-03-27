@@ -1,15 +1,14 @@
 package com.example.youtube.service;
 
-
 import com.example.youtube.model.Category;
+
 import com.example.youtube.repository.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 @Service
-public class CategoryService implements ICategoryService{
+public class CategoryService implements ICategoryService {
     @Autowired
     private ICategoryRepository iCategoryRepository;
 
@@ -32,4 +31,5 @@ public class CategoryService implements ICategoryService{
     public void remove(Long id) {
         iCategoryRepository.deleteById(id);
     }
+
 }

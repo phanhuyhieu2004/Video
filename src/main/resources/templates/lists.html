@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <link rel="stylesheet" href="/css/hi.css">
+
+</head>
+
+<body>
+<div class="container">
+    <nav>
+        <div class="navbar">
+            <div class="logo">
+                <!--                <img src="/pic/logo.jpg" alt="">-->
+                <!--                <h1>jobs</h1>-->
+            </div>
+            <ul>
+                <li><a href="#">
+                    <i class="fas fa-user"></i>
+                    <span class="nav-item">Dashboard</span>
+                </a>
+                </li>
+                <li><a href="/categorys">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="nav-item">Category</span>
+                </a>
+                </li>
+                <li><a href="/videos">
+                    <i class="fas fa-tasks"></i>
+                    <span class="nav-item">Videos</span>
+                </a>
+                </li>
+                <li><a href="/accounts">
+                    <i class="fab fa-dochub"></i>
+                    <span class="nav-item">Accounts</span>
+                </a>
+                </li>
+                <li><a href="#">
+                    <i class="fas fa-cog"></i>
+                    <span class="nav-item">Setting</span>
+                </a>
+                </li>
+                <li><a href="#">
+                    <i class="fas fa-question-circle"></i>
+                    <span class="nav-item">Help</span>
+                </a>
+                </li>
+                <li><a href="#" class="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="nav-item">Logout</span>
+                </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="main">
+
+        <div class="main-body">
+
+
+            <div class="search_bar">
+                <form>
+                    <input type="text" placeholder="Search " name="s" >
+                    <input type="submit" value="Search">
+                </form>
+
+                <!--                <button class="login-btn" type="button"><a-->
+                <!--                        th:href="@{/create-category}">Add-->
+                <!--                </a></button>-->
+                <button id="loginBtn" class="login-btn">Add</button>
+
+
+                <div id="loginModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+
+                        <form id="loginForm" th:action="@{/create-video}" th:object="${video}" method="post">
+                            <label for="title">Title:</label>
+                            <input type="text" id="title" th:field="*{title}" required
+                                   style="width: 60%; height: 40px; margin: 10px;">
+                            <br> <label for="description">Description:</label>
+                            <input type="text" id="description" th:field="*{description}" required
+                                   style="width: 60%; height: 40px; margin: 10px;">
+                            <br> <label for="upload_date">Upload_date:</label>
+                            <input type="date" id="upload_date" th:field="*{upload_date}" readonly
+                                   style="width: 60%; height: 40px; margin: 10px;">
+
+
+                            <br> <label for="url">Title:</label>
+                            <input type="text" id="url" th:field="*{url}" required
+                                   style="width: 60%; height: 40px; margin: 10px;">
+                            <br> <label for="thumbnail">Title:</label>
+                            <input type="text" id="thumbnail" th:field="*{thumbnail}" required
+                                   style="width: 60%; height: 40px; margin: 10px;">
+                            <br>  <select th:field="*{category}">
+                            <option th:each="c:${categorys}" th:value="${c.category_id}" th:text="${c.name}"></option>
+                        </select>
+                            <br>
+                            <button type="submit" class="x"
+                                    style="padding: 10px 20px; margin-bottom: 10px; margin-top: 20px; background: pink; margin-left: 150px; border-radius: 5px; cursor: pointer;">
+                                Login
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <select th:field="*{categorys}">
+                    <option th:each="c:${categorys}" th:value="${c.category_id}" th:text="${c.name}"></option>
+                </select>
+
+                <select class="filter">
+                    <option>Filter</option>
+                </select>
+
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Title</th>
+<th>Description</th>
+<th>Upload_date</th>
+<th>Url</th>
+<th>Thumbnail</th>
+                        <th>Category</th>
+                        <th style="display: flex">Action</th>
+                    </tr>
+                    </thead>
+                    <th:block th:each="video,videoStart : ${videos}">
+                        <tr>
+                            <td th:text="${videoStart.index+1}"></td>
+                            <td th:text="${video.title}"></td>
+                            <td th:text="${video.description}"></td>
+                            <td th:text="${video.upload_date}"></td>
+                            <td th:text="${video.url}"></td>
+                            <td th:text="${video.thumbnail}"></td>
+                            <td th:text="${video.category.name}"></td>
+
+                            <td style="display: flex">
+                                <button class="edit" type="button"style="margin-right: 10px;">
+                                    <a
+                                        th:href="@{/edit-video/__${video.video_id}__ }">Edit
+                                </a>
+                                </button>
+
+                                <button class="delete" type="button">
+                                    <a
+                                        th:href="@{/delete-video/__${video.video_id}__ }">Delete
+                                </a>
+                                </button>
+                            </td>
+                        </tr>
+                    </th:block>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+
+</body>
+<script>
+    var modal = document.getElementById("loginModal");
+
+    var btn = document.getElementById("loginBtn");
+
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+        // Lấy ngày hiện tại
+        var today = new Date();
+
+        // Định dạng ngày hiện tại thành chuỗi "YYYY-MM-DD" (định dạng được yêu cầu bởi input type="date")
+        var formattedDate = today.toISOString().split('T')[0];
+
+        // Đặt giá trị mặc định cho trường nhập ngày
+        document.getElementById("upload_date").value = formattedDate;
+
+</script>
+</html>
