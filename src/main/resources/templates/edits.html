@@ -23,13 +23,13 @@
             <td><input type="text" th:field="${video.description}"></td>
         </tr> <tr>
             <td>Upload_date:</td>
-            <td><input type="date" th:field="${video.upload_date}"></td>
+            <td><input type="date" th:field="${video.upload_date}"readonly></td>
         </tr> <tr>
             <td>Url:</td>
-            <td><input type="text" th:field="${video.url}"></td>
+            <td><input type="file" th:field="${video.url}" ></td>
         </tr> <tr>
             <td>Thumbnail:</td>
-            <td><input type="text" th:field="${video.thumbnail}"></td>
+            <td><input type="file" th:field="${video.thumbnail }" ></td>
         </tr> <tr>
             <td>Category:</td>
             <td><select name="category">

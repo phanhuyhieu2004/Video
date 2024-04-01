@@ -1,39 +1,22 @@
 package com.example.youtube.model;
 
-import jakarta.persistence.*;
-import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Set;
-
-@Entity
-@Table(name = "video")
-@Data
-public class Video {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class VideoForm {
     private Long video_id;
     private String title;
     private String description;
-    private String thumbnail;
+//    đại diện cho tệp dữ liệu mà máy chủ đã nhận được từ biểu mẫu HTML.
+    private MultipartFile thumbnail;
 
-    private String url;
+    private MultipartFile url;
     private String upload_date;
-
-
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
     private Category category;
-@ManyToOne
-@JoinColumn(name="account_id")
 private Account account;
-    public Video() {
+    public VideoForm() {
     }
 
-    public Video(Long video_id, String title, String description, String thumbnail, String url, String upload_date, Category category, Account account) {
+    public VideoForm(Long video_id, String title, String description, MultipartFile thumbnail, MultipartFile url, String upload_date, Category category, Account account) {
         this.video_id = video_id;
         this.title = title;
         this.description = description;
@@ -43,7 +26,6 @@ private Account account;
         this.category = category;
         this.account = account;
     }
-
 
     public Long getVideo_id() {
         return video_id;
@@ -69,19 +51,19 @@ private Account account;
         this.description = description;
     }
 
-    public String getThumbnail() {
+    public MultipartFile getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(String thumbnail) {
+    public void setThumbnail(MultipartFile thumbnail) {
         this.thumbnail = thumbnail;
     }
 
-    public String getUrl() {
+    public MultipartFile getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(MultipartFile url) {
         this.url = url;
     }
 
@@ -99,5 +81,13 @@ private Account account;
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

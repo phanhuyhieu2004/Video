@@ -26,7 +26,7 @@ body {
 
 nav {
     width: 280px; /* Đặt chiều rộng của menu bên trái */
-    background: #fff;
+
 }
 
 .navbar {
@@ -35,23 +35,7 @@ nav {
 }
 
 
-.logo {
-    margin: 2rem 0 1rem 0;
-    padding-bottom: 3rem;
-    display: flex;
-    align-items: center;
-}
 
-.logo img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-
-.logo h1 {
-    margin-left: 1rem;
-    text-transform: uppercase;
-}
 
 ul {
     margin: 0 auto;
@@ -150,18 +134,16 @@ h1 {
 .data-table th,
 .data-table td {
     padding: 8px 12px;
-    border: 1px solid #ddd;
+
     text-align: left;
 }
 
 .data-table th {
-    background-color: #f2f2f2;
+    background-color: deeppink;
     font-weight: bold;
 }
 
-.data-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
+
 
 
 @media (max-width: 600px) {
@@ -193,6 +175,14 @@ h1 {
 }
 .delete {
     background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.download {
+    background-color: hotpink;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -260,18 +250,16 @@ h1 {
 .data-table th,
 .data-table td {
     padding: 8px 12px;
-    border: 1px solid #ddd;
+
     text-align: left;
 }
 
 .data-table th {
-    background-color: #f2f2f2;
+    background-color: hotpink;
     font-weight: bold;
 }
 
-.data-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
+
 
 
 @media (max-width: 600px) {

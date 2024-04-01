@@ -47,11 +47,7 @@
                     <span class="nav-item">Help</span>
                 </a>
                 </li>
-                <li><a href="#" class="logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span class="nav-item">Logout</span>
-                </a>
-                </li>
+
             </ul>
         </div>
     </nav>
@@ -62,9 +58,16 @@
 
 
             <div class="search_bar">
-                <form>
-                    <input type="text" placeholder="Search " name="s" >
+                <form style="display: flex">
+                    <input type="text" placeholder="Search " name="title" th:value="${keyWord}">
+                    <select name="category">
+                        <option value="" placeholder="Category">Category</option>
+                        <option th:each="c:${categorys}" th:value="${c.category_id}" th:text="${c.name}"></option>
+                    </select>
+
+                    <input type="date" name="upload_date" style="margin-left: 10px;">
                     <input type="submit" value="Search">
+
                 </form>
 
                 <!--                <button class="login-btn" type="button"><a-->
@@ -77,7 +80,8 @@
                     <div class="modal-content">
                         <span class="close">&times;</span>
 
-                        <form id="loginForm" th:action="@{/create-video}" th:object="${video}" method="post">
+                        <form id="loginForm" th:action="@{/create-video}" th:object="${videoForm}" method="post"
+                              novalidate="novalidate" enctype="multipart/form-data">
                             <label for="title">Title:</label>
                             <input type="text" id="title" th:field="*{title}" required
                                    style="width: 60%; height: 40px; margin: 10px;">
@@ -89,13 +93,13 @@
                                    style="width: 60%; height: 40px; margin: 10px;">
 
 
-                            <br> <label for="url">Title:</label>
-                            <input type="text" id="url" th:field="*{url}" required
+                            <br> <label for="url">Video:</label>
+                            <input type="file" id="url" th:field="*{url}" required
                                    style="width: 60%; height: 40px; margin: 10px;">
-                            <br> <label for="thumbnail">Title:</label>
-                            <input type="text" id="thumbnail" th:field="*{thumbnail}" required
+                            <br> <label for="thumbnail">Thumbnail:</label>
+                            <input type="file" id="thumbnail" th:field="*{thumbnail}" required
                                    style="width: 60%; height: 40px; margin: 10px;">
-                            <br>  <select th:field="*{category}">
+                            <br> <select th:field="*{category}">
                             <option th:each="c:${categorys}" th:value="${c.category_id}" th:text="${c.name}"></option>
                         </select>
                             <br>
@@ -107,56 +111,77 @@
                     </div>
                 </div>
 
-                <select th:field="*{categorys}">
-                    <option th:each="c:${categorys}" th:value="${c.category_id}" th:text="${c.name}"></option>
-                </select>
-
-                <select class="filter">
-                    <option>Filter</option>
-                </select>
 
             </div>
             <div class="table-container">
-                <table class="data-table">
-                    <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Title</th>
-<th>Description</th>
-<th>Upload_date</th>
-<th>Url</th>
-<th>Thumbnail</th>
-                        <th>Category</th>
-                        <th style="display: flex">Action</th>
-                    </tr>
-                    </thead>
-                    <th:block th:each="video,videoStart : ${videos}">
+
+                <div th:if="${#lists.isEmpty(videos)}">
+                    <p>No results found.</p>
+                </div>
+                <div th:if="${not #lists.isEmpty(videos)}">
+                    <table class="data-table">
+                        <thead>
                         <tr>
-                            <td th:text="${videoStart.index+1}"></td>
-                            <td th:text="${video.title}"></td>
-                            <td th:text="${video.description}"></td>
-                            <td th:text="${video.upload_date}"></td>
-                            <td th:text="${video.url}"></td>
-                            <td th:text="${video.thumbnail}"></td>
-                            <td th:text="${video.category.name}"></td>
-
-                            <td style="display: flex">
-                                <button class="edit" type="button"style="margin-right: 10px;">
-                                    <a
-                                        th:href="@{/edit-video/__${video.video_id}__ }">Edit
-                                </a>
-                                </button>
-
-                                <button class="delete" type="button">
-                                    <a
-                                        th:href="@{/delete-video/__${video.video_id}__ }">Delete
-                                </a>
-                                </button>
-                            </td>
+                            <th>STT</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Upload_date</th>
+                            <th>Url</th>
+                            <th>Thumbnail</th>
+                            <th>Category</th>
+                            <th style="display: flex">Action</th>
                         </tr>
-                    </th:block>
-                </table>
+                        </thead>
+                        <th:block th:each="video,videoStart : ${videos}">
+                            <tr>
+                                <td th:text="${videoStart.index+1}"></td>
+                                <td th:text="${video.title}"></td>
+                                <td th:text="${video.description}"></td>
+                                <td th:text="${video.upload_date}"></td>
+                                <td>
+                                    <a th:href="@{'/video/' + ${video.url}}" target="_blank"
+                                       style="color: deeppink; text-decoration: underline;">
+                                        http://localhost:8080/video/<span th:text="${video.url}"></span>
+                                    </a></td>
+
+                                <td><img width="100" height="100" th:src="@{'/video/' + ${video.thumbnail}}"></td>
+
+                                <td th:text="${video.category.name}"></td>
+
+                                <td style="display: flex;margin-top: 30px;">
+                                    <button class="edit" type="button" style="margin-right: 10px;">
+                                        <a
+                                                th:href="@{/edit-video/__${video.video_id}__ }">Edit
+                                        </a>
+                                    </button>
+
+                                    <button class="delete" type="button">
+                                        <a
+                                                th:href="@{/delete-video/__${video.video_id}__ }">Delete
+                                        </a>
+                                    </button>
+                                    <button class="download" type="button" style="margin-left: 10px;">
+                                        <a
+                                                th:href="@{/download-video/__${video.video_id}__ }">Download
+                                        </a>
+                                    </button>
+                                </td>
+                            </tr>
+                        </th:block>
+                    </table>
+                    <div>
+
+                        <a th:href="@{'/videos'(page=${number - 1})}" th:if="${hasPrevious}">Previous</a>
+                        <span th:text="${number + 1}"></span>......<span th:text="${totalPage}"></span>
+                        <a th:href="@{'/videos'(page=${number + 1})}" th:if="${hasNext}">Next</a>
+
+
+                    </div>
+                </div>
+
+
             </div>
+
         </div>
     </section>
 </div>
@@ -184,14 +209,14 @@
     }
 
 
-        // Lấy ngày hiện tại
-        var today = new Date();
+    // Lấy ngày hiện tại
+    var today = new Date();
 
-        // Định dạng ngày hiện tại thành chuỗi "YYYY-MM-DD" (định dạng được yêu cầu bởi input type="date")
-        var formattedDate = today.toISOString().split('T')[0];
+    // Định dạng ngày hiện tại thành chuỗi "YYYY-MM-DD" (định dạng được yêu cầu bởi input type="date")
+    var formattedDate = today.toISOString().split('T')[0];
 
-        // Đặt giá trị mặc định cho trường nhập ngày
-        document.getElementById("upload_date").value = formattedDate;
+    // Đặt giá trị mặc định cho trường nhập ngày
+    document.getElementById("upload_date").value = formattedDate;
 
 </script>
 </html>
