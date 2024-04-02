@@ -18,15 +18,7 @@ public class VideoSpec implements Specification<Video> {
         this.videoRequest = videoRequest;
     }
 //
-//    @Override
-//    public Specification<Video> and(Specification<Video> other) {
-//        return Specification.super.and(other);
-//    }
-//
-//    @Override
-//    public Specification<Video> or(Specification<Video> other) {
-//        return Specification.super.or(other);
-//    }
+
 
     @Override
 //    các điều kiện (predicates)

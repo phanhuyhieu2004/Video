@@ -38,7 +38,6 @@ public class CategoryController {
         categoryService.save(category);
         ModelAndView modelAndView = new ModelAndView("redirect:categorys");
         modelAndView.addObject("category", category);
-//        modelAndView.addObject("message","thành công rồi");
         return modelAndView;
 
 
