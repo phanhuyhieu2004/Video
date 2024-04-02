@@ -43,9 +43,7 @@ public class VideoService implements IVideoService{
     public void remove(Long id) {
         iVideoRepository.deleteById(id);
     }
-    public Iterable<Video> findAllByTitleContaining(String title){
-       return iVideoRepository.findAllByTitleContaining(title);
-    }
+  
 
 
 }
