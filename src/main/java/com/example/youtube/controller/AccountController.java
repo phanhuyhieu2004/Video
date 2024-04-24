@@ -31,7 +31,7 @@ public class AccountController {
             accounts = accountService.findAll();
         }
 
-        ModelAndView modelAndView = new ModelAndView("listss");
+        ModelAndView modelAndView = new ModelAndView("list2");
         modelAndView.addObject("accounts", accounts);
         return modelAndView;
     }

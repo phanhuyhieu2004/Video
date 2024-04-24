@@ -2,13 +2,20 @@ package com.example.youtube.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.File;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
+//        lớp lắng nghe sự kiện aáp dụng cho thực thể.Tên của lớp dùng để theo dõi các sk
+////theo dõi sự kiện khi các đối tượng được taọ,cập nhật,hoặc xóa
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "video")
 @Data
 public class Video {
@@ -22,14 +29,46 @@ public class Video {
     private String url;
     private String upload_date;
 
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Account getAccount(){
+        
+        return account;
+    }
+
+    public Video setAccount(Account account) {
+        this.account = account;
+        return this;
+    }
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-@ManyToOne
-@JoinColumn(name="account_id")
-private Account account;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
+
     public Video() {
     }
 

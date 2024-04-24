@@ -1,8 +1,9 @@
-package com.example.youtube;
-
+package com.example.youtube.dto;
+import org.springframework.data.domain.Sort.Direction;
 public class PaginateRequest {
     private int page;
     private int size;
+
 
 
     public PaginateRequest() {

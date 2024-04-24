@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const imgProfile = document.querySelector('.header .img img');
+    const dropdownProfile = document.querySelector('.header .img .profile-link');
+
+    imgProfile.addEventListener('click', function () {
+      dropdownProfile.classList.toggle('show');
+    });
+  });
+  const showMenu = (headerToggle, navbarId) => {
+    const toggleBtn = document.getElementById(headerToggle),
+            nav = document.getElementById(navbarId)
+
+    if (headerToggle && navbarId) {
+      toggleBtn.addEventListener('click', () => {
+        nav.classList.toggle('show-menu')
+        toggleBtn.classList.toggle('fa-times')
+      })
+    }
+  }
+  showMenu('header-toggle', 'navbar')
+
+  const linkcolor = document.querySelectorAll('.nav_link');
+
+  function colorLink() {
+    linkcolor.forEach(l => l.classList.remove('active'))
+    this.classList.add('active')
+  }
+  linkcolor.forEach(l => l.addEventListener('click', colorLink))
+  const sideMenu = document.querySelector(".nav");
+  const menuBtn = document.querySelector("#header-toggle");
+  const themeToggle = document.querySelector(".theme-toggle");
+
+  menuBtn.addEventListener('click', () => {
+    sideMenu.classList.toggle('show-menu');
+  });
+
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-theme-variables');
+    themeToggle.querySelector('span:nth-child(1)').classList.toggle('active');
+    themeToggle.querySelector('span:nth-child(2)').classList.toggle('active');
+  });
+  document.addEventListener("mousemove",function (e){
+    let body=document.querySelector("body");
+    let circle=document.createElement("div"); // Sử dụng div thay vì span
+    let x=e.offsetX;
+    let y=e.offsetY;
+    circle.classList.add('colorful-bubble'); // Thêm lớp bubble cho div
+    circle.style.left=x+"px";
+    circle.style.top=y+"px";
+    let size=Math.random() * 100;
+    circle.style.width=10+size+"px";
+    circle.style.height=10+size+"px";
+    body.appendChild(circle);
+    setTimeout(function (){
+      circle.remove();
+    },1800);
+  });
+  // Lấy ngày hiện tại
+  var today = new Date();
+
+  // Định dạng ngày hiện tại thành chuỗi "YYYY-MM-DD" (định dạng được yêu cầu bởi input type="date")
+  var formattedDate = today.toISOString().split('T')[0];
+
+  // Đặt giá trị mặc định cho trường nhập ngày
+  document.getElementById("upload_date").value = formattedDate;
+
+</script>
+</body>
+</html>

@@ -1,25 +1,25 @@
 package com.example.youtube.controller;
 
-import com.example.youtube.PaginateRequest;
-import com.example.youtube.VideoRequest;
+import com.example.youtube.dto.PaginateRequest;
+import com.example.youtube.dto.VideoRequest;
 import com.example.youtube.model.Category;
 import com.example.youtube.model.Video;
 
 
-import com.example.youtube.model.VideoForm;
+import com.example.youtube.dto.VideoForm;
 import com.example.youtube.service.CategoryService;
 import com.example.youtube.service.VideoService;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.*;
 import java.util.Optional;
@@ -45,35 +45,53 @@ public class VideoController {
                                  @RequestParam(name = "size", defaultValue = "5", required = false) int size,
                                  @RequestParam(name = "title", required = false) String title,
                                  @RequestParam(name = "upload_date", required = false) String uploadDate,
-                                 @RequestParam(name = "category", required = false) Long category) {
-        Page<Video> videoPage = videoService.findAll(new PaginateRequest(page, size), new VideoRequest(title, uploadDate, category));
+                                 @RequestParam(name = "category", required = false) String category
 
-        ModelAndView modelAndView = new ModelAndView("lists");
+     ) {
+        Page<Video> videoPage = videoService.findAll(  new VideoRequest(title, uploadDate, category),new PaginateRequest(page, size));
+
+        ModelAndView modelAndView = new ModelAndView("list1");
+        modelAndView.addObject("pageBegin", Math.max(1, page));
+        modelAndView.addObject("pageEnd", Math.min(page + 2, videoPage.getTotalPages()));
+
+        modelAndView.addObject("currentPage", page);
+        modelAndView.addObject("size", size);
         modelAndView.addObject("videos", videoPage.getContent());
-        modelAndView.addObject("videoForm", new VideoForm());
-        modelAndView.addObject("number", page);
-        modelAndView.addObject("keyWord", title);
-        modelAndView.addObject("totalPage", videoPage.getTotalPages());
-        modelAndView.addObject("hasPrevious", page > 0);
-        modelAndView.addObject("hasNext", page < videoPage.getTotalPages() - 1);
+
+
+        modelAndView.addObject("totalPages", videoPage.getTotalPages());
+
         return modelAndView;
+    }
+    @GetMapping("/create-video")
+    public String createForm(Model model) {
+        model.addAttribute("videoForm", new VideoForm());
+        return "add";
     }
 
 
     @PostMapping("/create-video")
-    public ModelAndView createVideo(@ModelAttribute VideoForm videoForm) throws Exception {
+    public String createVideo(@ModelAttribute VideoForm videoForm,RedirectAttributes redirectAttributes,Model model) throws IOException {
 
-        ModelAndView modelAndView = new ModelAndView("redirect:videos");
-        MultipartFile multipartFile = videoForm.getUrl();
-        String fileName = multipartFile.getOriginalFilename();
-        FileCopyUtils.copy(videoForm.getUrl().getBytes(), new File(fileUpload + fileName));
+
+
+           MultipartFile multipartFile = videoForm.getUrl();
+           String fileName = multipartFile.getOriginalFilename();
+           FileCopyUtils.copy(videoForm.getUrl().getBytes(), new File(fileUpload + fileName));
 //        Sao chép nội dung của  video  thư mục  với tên được trích xuất từ tệp gốc
-        MultipartFile multipartFiles = videoForm.getThumbnail();
-        String fileNames = multipartFiles.getOriginalFilename();
-        FileCopyUtils.copy(videoForm.getThumbnail().getBytes(), new File(fileUpload + fileNames));
-        Video video = new Video(videoForm.getVideo_id(), videoForm.getTitle(), videoForm.getDescription(), fileNames, fileName, videoForm.getUpload_date(), videoForm.getCategory(), videoForm.getAccount());
-        videoService.save(video);
-        return modelAndView;
+           MultipartFile multipartFiles = videoForm.getThumbnail();
+           String fileNames = multipartFiles.getOriginalFilename();
+           FileCopyUtils.copy(videoForm.getThumbnail().getBytes(), new File(fileUpload + fileNames));
+           Video video = new Video(videoForm.getVideo_id(), videoForm.getTitle(), videoForm.getDescription(), fileNames, fileName, videoForm.getUpload_date(), videoForm.getCategory(), videoForm.getAccount());
+           videoService.save(video);
+        model.addAttribute("videoForm", videoForm);
+        redirectAttributes.addFlashAttribute("msg", "Thêm thành công");
+
+        return "redirect:/videos";
+
+
+
+
     }
 
 
@@ -82,34 +100,29 @@ public class VideoController {
         Optional<Video> video = videoService.findById(id);
 
 
-        ModelAndView modelAndView = new ModelAndView("/edits");
+        ModelAndView modelAndView = new ModelAndView("/edit");
         modelAndView.addObject("video", video.get());
         return modelAndView;
     }
 
     @PostMapping("/edit-video")
-    public ModelAndView updateVideo(@ModelAttribute("video") Video video) {
+    public String updateVideo(@ModelAttribute("video") Video video, RedirectAttributes redirectAttributes,Model model) {
         videoService.save(video);
 
-        ModelAndView modelAndView = new ModelAndView("/edits");
-        modelAndView.addObject("video", video);
-        modelAndView.addObject("message", "Category updated thành công");
-        return modelAndView;
+
+        model.addAttribute("video", video);
+        redirectAttributes.addFlashAttribute("msg", "Sửa thành công");
+
+        return "redirect:/videos";
+
     }
+
 
     @GetMapping("/delete-video/{id}")
-    public ModelAndView showDeleteForm(@PathVariable Long id) {
+    public String deleteVideo(@PathVariable Long id,RedirectAttributes redirectAttributes) {
         Optional<Video> video = videoService.findById(id);
-
-
-        ModelAndView modelAndView = new ModelAndView("/deletes");
-        modelAndView.addObject("video", video.get());
-        return modelAndView;
-    }
-
-    @PostMapping("/delete-video")
-    public String deleteVideo(@ModelAttribute("video") Video video) {
-        videoService.remove(video.getVideo_id());
+        videoService.remove(video.get().getVideo_id());
+        redirectAttributes.addFlashAttribute("msg", "Xóa thành công");
 
         return "redirect:/videos";
     }
@@ -120,7 +133,7 @@ public class VideoController {
 //        lấy đường dẫn của file
         String filePath = fileUpload + video.get().getUrl();
         File file = new File(filePath);
-//*----------------------------Multipurpose Internet Mail Extensions) của phản hồi HTTP
+//*Multipurpose Internet Mail Extensions) của phản hồi HTTP
 //         thiết lập loại dữ liệu mà trình duyệt web sẽ nhận được từ máy chủ.
 //         octet-stream" đề cập đến việc dữ liệu được truyền dưới dạng các byte mà không có định dạng cụ thể..
         response.setContentType("application/octet-stream");

@@ -1,4 +1,4 @@
-package com.example.youtube;
+package com.example.youtube.dto;
 
 import com.example.youtube.model.Category;
 
@@ -7,10 +7,10 @@ public class VideoRequest {
 
     private String upload_date;
 
-private Long category;
+private String category;
 
 
-    public VideoRequest(String title, String upload_date, Long category) {
+    public VideoRequest(String title, String upload_date, String category) {
         this.title = title;
         this.upload_date = upload_date;
         this.category = category;
@@ -32,11 +32,11 @@ private Long category;
         this.upload_date = upload_date;
     }
 
-    public Long getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Long category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 }

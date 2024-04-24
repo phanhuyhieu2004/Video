@@ -35,36 +35,11 @@
         <div class="left">
             <div class="left_content">
 
-                <form th:action="@{/edit-video}" th:object="${video}" method="post">
-                    <input type="hidden" name="id" th:field="${video.video_id}"/>
-                    <h3>Upload your video :</h3>
-                    <input type="file"  th:field="${video.url}">
+                <form th:action="@{/create-category}" th:object="${category}" method="post">
 
-                    <h3>Upload your photo :</h3>
-                    <input type="file" th:field="${video.thumbnail}" >
-
-                    <!-- Title input with minimum length validation -->
-                    <h3>Title :</h3>
-                    <input type="text" class="title" placeholder="Enter Title" th:field="${video.title}" required ><br><br>
+                                       <h3>Title :</h3>
+                    <input type="text" class="title" placeholder="Enter Title" th:field="*{name}" required ><br><br>
                     <h3>Category :</h3>
-                    <div class="select-wrapper">
-                        <select name="category">
-                            <option th:each="c : ${categorys}"
-                                    th:value="${c.category_id}"
-                                    th:text="${c.name}"
-                                    th:selected="(${c.category_id} == *{category.category_id})"></option>
-                        </select>
-                        <div class="icon">
-                            <i class="fas fa-caret-down"></i>
-                        </div>
-                    </div><br><br>
-
-                    <!-- Description textarea with minimum length validation -->
-                    <h3>Description :</h3>
-                    <textarea id="description" rows="4" placeholder="Enter Description" th:field="${video.description}" required ></textarea><br><br>
-                    <input type="date" id="upload_date" th:field="${video.upload_date}"  readonly>
-
-                    <!-- Hidden upload date field -->
 
 
                     <button type="submit">Submit</button>

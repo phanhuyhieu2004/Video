@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>MeTube</title>
@@ -40,9 +40,9 @@
                     </div>
                 </div>
 
-                <form th:action="@{/categorys}" method="get">
+                <form th:action="@{/accounts}" method="get">
 
-                    <p>You can search for categorys by  name  using the boxes below</p>
+                    <p>You can search for accounts by  name  using the boxes below</p>
                     <div class="filter" style="display: flex">
 
 
@@ -50,14 +50,7 @@
                             <input type="text"name="s" placeholder="Search" style="background: transparent;color: var(--color-dark)">
                         </div>
 
-                        <div class="item add-product">
-                            <a href="/create-category">
-                                <div>
-                                    <span class="material-icons-sharp">add</span>
-                                    <p>Add Category</p>
-                                </div>
-                            </a>
-                        </div>
+
                         <button type="submit" value="button">                    <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
                     </div>
@@ -71,22 +64,20 @@
                             <th>Id</th>
                             <th>Name</th>
 
-                            <th style="display: flex;  justify-content: center;">Action</th>
+
                         </tr>
                         </thead>
-                        <th:block th:each="category : ${categories}">
+                        <th:block th:each="account : ${accounts}">
                             <tr>
-                                <td th:text="${category.category_id}"></td>
-                                <td th:text="${category.name}"></td>
+                                <td th:text="${account.account_id}"></td>
+                                <td th:text="${account.userName}"></td>
 
 
 
 
 
 
-                                <td style="display: flex;">
-                                   <a th:href="@{/delete-category/__${category.category_id}__ }"onclick="return confirm('Are you sure you want to delete?');"><i class="fa-solid fa-x"></i></a>
-                                </td>
+
                             </tr>
                         </th:block>
                     </table>
@@ -104,7 +95,7 @@
                     <div class="updates">
                         <div class="update">
                             <div class="profile-photo">
-                                <img src="/css/profile-2%20-%20Copy.jpg"class="account">
+                                <img src="/css/profile-2%20-%20Copy.jpg" class="account">
 
                             </div>
                             <div class="message">
@@ -124,7 +115,7 @@
                         </div>
                         <div class="update">
                             <div class="profile-photo">
-                                <img src="/css/profile-4.jpg"class="account">
+                                <img src="/css/profile-4.jpg" class="account">
 
                             </div>
                             <div class="message">

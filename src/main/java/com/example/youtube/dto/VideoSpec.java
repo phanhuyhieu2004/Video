@@ -1,4 +1,4 @@
-package com.example.youtube;
+package com.example.youtube.dto;
 
 import com.example.youtube.model.Video;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 //định nghĩa các điều kiện (specifications) dùng để lọc dữ liệu hoặc thực hiện các phương thức tương tự trong các tác vụ khác nhau.
-public class VideoSpec implements Specification<Video> {
+public class
+
+VideoSpec implements Specification<Video> {
     private VideoRequest videoRequest;
 
     public VideoSpec(VideoRequest videoRequest) {
@@ -41,12 +43,16 @@ public class VideoSpec implements Specification<Video> {
             predicates.add(criteriaBuilder.like(root.get("upload_date"), "%" + videoRequest.getUpload_date() + "%"));
         }
         if (videoRequest.getCategory() != null) {
-            predicates.add(criteriaBuilder.equal(root.join("category").get("id"), videoRequest.getCategory()));
+            predicates.add(criteriaBuilder.equal(root.join("category").get("name"), videoRequest.getCategory()));
         }
-//        kết hợp tất cả các điều kiện trong danh sách predicates với nhau bằng toán tử AND
-        return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+       if (!predicates.isEmpty()) {
+      query.where(predicates.toArray(new Predicate[0]));
+    }
+
+    return query.getRestriction();
+  }
 //        toArray(T[] a) là một phương thức của lớp ArrayList, nó chuyển đổi một danh sách thành một mảng.
 //        Trong trường hợp này, new Predicate[0] tạo ra một mảng rỗng của các đối tượng Predicate. Làm như vậy không yêu cầu phải chỉ định kích thước của mảng vì kích thước của mảng sẽ được tự động điều chỉnh bởi ArrayList để phù hợp với số lượng phần tử hiện tại trong danh sách.
 //                Kết quả cuối cùng là một mảng các đối tượng Predicate chứa tất cả các phần tử từ danh sách predicates.
     }
-}
+

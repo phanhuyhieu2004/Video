@@ -31,5 +31,7 @@ public class CategoryService implements ICategoryService {
     public void remove(Long id) {
         iCategoryRepository.deleteById(id);
     }
-
+    public Iterable<Category> findAllByNameContaining(String name){
+        return iCategoryRepository.findAllByNameContaining(name);
+    }
 }

@@ -40,22 +40,37 @@
                     </div>
                 </div>
 
-                <form th:action="@{/categorys}" method="get">
+                <form th:action="@{/videos}" method="get">
 
-                    <p>You can search for categorys by  name  using the boxes below</p>
+<p>You can search for videos by posting date, name or category using the boxes below</p>
                     <div class="filter" style="display: flex">
-
-
-                        <div class="search">
-                            <input type="text"name="s" placeholder="Search" style="background: transparent;color: var(--color-dark)">
+                        <input type="hidden" name="page" th:value="${param.page}">
+                        <input type="hidden" name="size" th:value="${size}">
+                        <div class="date">
+                            <input type="date" name="upload_date" th:value="${param.upload_date}">
                         </div>
+                        <div class="search">
+                            <input type="text"name="title" placeholder="Search" style="background: transparent;color: var(--color-dark);"th:value="${param.title}">
+                        </div>
+                        /
+                        <div class="custom-select">
+                            <select name="category">
+                                <option value="">Select category</option>
+                                <option th:each="c:${categorys}"
+                                        th:value="${c.name}"
+                                        th:text="${c.name}"    >        </option>
 
+                            </select>
+                            <div class="select-icon">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </div>
                         <div class="item add-product">
-                            <a href="/create-category">
-                                <div>
-                                    <span class="material-icons-sharp">add</span>
-                                    <p>Add Category</p>
-                                </div>
+                            <a href="/create-video">
+                            <div>
+                                <span class="material-icons-sharp">add</span>
+                                <p>Add Video</p>
+                            </div>
                             </a>
                         </div>
                         <button type="submit" value="button">                    <i class="fa-solid fa-magnifying-glass"></i>
@@ -63,37 +78,68 @@
                     </div>
 
                 </form>
-
-                <div class="recent-orders">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-
-                            <th style="display: flex;  justify-content: center;">Action</th>
-                        </tr>
-                        </thead>
-                        <th:block th:each="category : ${categories}">
-                            <tr>
-                                <td th:text="${category.category_id}"></td>
-                                <td th:text="${category.name}"></td>
+                <div th:if="${#lists.isEmpty(videos
+                )}">
+                    <p>Không tìm thấy kết quả</p>
+                </div>
+<div th:if="${not #lists.isEmpty(videos)}">
+    <div class="recent-orders">
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Upload_date</th>
 
 
+                <th>Category</th>
+                <th style="display: flex;  justify-content: center;">Action</th>
+            </tr>
+            </thead>
+            <th:block th:each="video : ${videos}">
+                <tr>
+                    <td th:text="${video.video_id}"></td>
+                    <td th:text="${video.title}"></td>
+                    <td th:text="${video.description}"></td>
+                    <td th:text="${video.upload_date}"></td>
 
 
 
 
-                                <td style="display: flex;">
-                                   <a th:href="@{/delete-category/__${category.category_id}__ }"onclick="return confirm('Are you sure you want to delete?');"><i class="fa-solid fa-x"></i></a>
-                                </td>
-                            </tr>
-                        </th:block>
-                    </table>
+                    <td th:text="${video.category.name}"></td>
 
+                    <td style="display: flex;">
+                        <a  th:href="@{/edit-video/__${video.video_id}__ }"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a    th:href="@{/delete-video/__${video.video_id}__ }"onclick="return confirm('Are you sure you want to delete?');"><i class="fa-solid fa-x"></i></a>
+                        <a th:href="@{/download-video/__${video.video_id}__ }"><i class="fa-solid fa-download"></i></a>
+                        <a th:href="@{http://localhost:3000/detail/__${video.video_id}__ }"><i class="fa-solid fa-eye"></i></a>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+
+
+    </div>
+
+</div>
+
+                <div class="pagination">
+
+                    <ul class="pagination pagination-sm m-0 float-right">
+                        <li class="page-item"><a class="page-link" th:href="@{/videos(page = 0, size = ${size})}">First</a>
+                        </li>
+                        <li th:each="i:${#numbers.sequence(pageBegin, pageEnd)}" class="page-item">
+
+                            <a class="page-link" th:text="${i}"
+                               th:href="${uriBuilder.replaceQueryParam('page', i - 1).toUriString()}"></a>
+                        </li>
+                        <li class="page-item"><a class="page-link"
+                                                 th:href="@{/videos(page = ${totalPages - 1}, size = ${size}, title = ${param.title}, upload_date = ${param.upload_date})}">Last</a>
+                        </li>
+                    </ul>
 
                 </div>
-
 
             </div>
         </div>
